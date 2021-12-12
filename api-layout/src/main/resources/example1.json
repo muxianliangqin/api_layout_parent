@@ -1,0 +1,46 @@
+{
+  "id": "example1",
+  "rule": "(http1-1)->(select1-2)->(http1-3)->(select1-4)->(http1-5)",
+  "desc": "example1",
+  "nodeMap": {
+    "http1-1": {
+      "id": "http1-1",
+      "type": "http",
+      "url": "http://localhost:8080/test/selectUser/{userId}",
+      "method": "get",
+      "input": {
+        "userId": "12345"
+      }
+    },
+    "select1-2": {
+      "id": "select1-2",
+      "type": "select",
+      "nodeId": "http1-1",
+      "keyList": [
+        "roleId"
+      ]
+    },
+    "http1-3": {
+      "id": "http1-3",
+      "type": "http",
+      "url": "http://localhost:8080/test/selectRole/{roleId}",
+      "method": "get",
+      "input": "select1-2"
+    },
+    "select1-4": {
+      "id": "select1-4",
+      "type": "select",
+      "nodeId": "http1-3",
+      "keyList": [
+        "managerId"
+      ]
+    },
+    "http1-5": {
+      "id": "http1-5",
+      "type": "http",
+      "url": "http://localhost:8080/test/selectUser/{managerId}",
+      "method": "get",
+      "input": "select1-4"
+    }
+  }
+}
